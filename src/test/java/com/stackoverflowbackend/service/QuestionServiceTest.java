@@ -60,9 +60,9 @@ class QuestionServiceTest {
         QuestionDto questionResultResponse = questionService.addQuestion(questionDto);
 
         //assert
-        assertEquals(1L, questionResultResponse.id());
-        assertEquals("title1", questionResultResponse.title());
-        assertNull(questionResponse.body());
+        assertEquals(1L, questionResultResponse.getId());
+        assertEquals("title1", questionResultResponse.getTitle());
+        assertNull(questionResponse.getBody());
     }
 
     @Test

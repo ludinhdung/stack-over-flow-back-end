@@ -1,11 +1,3 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/stackoverflowdb
-    username: root
-    password: dung2309
-  jpa:
-    show-sql: true
-
-api:
-  endpoint:
-    base-url: /api/v1
+  profiles:
+    active: dev

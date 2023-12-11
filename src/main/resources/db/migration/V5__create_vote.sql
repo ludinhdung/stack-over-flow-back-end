@@ -1,0 +1,16 @@
+CREATE TABLE vote
+(
+    id          BIGINT AUTO_INCREMENT NOT NULL,
+    type        SMALLINT NOT NULL,
+    user_id     BIGINT   NOT NULL,
+    question_id BIGINT   NOT NULL,
+    CONSTRAINT pk_vote PRIMARY KEY (id)
+);
+ALTER TABLE questions
+    ADD vote_count INT DEFAULT 0 NOT NULL;
+
+ALTER TABLE vote
+    ADD CONSTRAINT FK_VOTE_ON_QUESTION FOREIGN KEY (question_id) REFERENCES questions (id) ON DELETE CASCADE;
+
+ALTER TABLE vote
+    ADD CONSTRAINT FK_VOTE_ON_USER FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
