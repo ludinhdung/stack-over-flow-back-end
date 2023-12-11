@@ -14,6 +14,14 @@ public interface QuestionMapper {
     Question toEntity(QuestionDto questionDto);
 
     @BeanMapping(ignoreByDefault = true)
+    @Mapping(source = "title", target = "title")
+    @Mapping(source = "body", target = "body")
+    @Mapping(source = "tags", target = "tags")
+    @Mapping(source = "createDate", target = "createDate")
+    @Mapping(source = "user.username", target = "username")
+    QuestionDto toDtoResponseSingle(Question questionDto);
+
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(source = "id", target = "id")
     @Mapping(source = "title", target = "title")
     QuestionDto toDtoResponseCreate(Question question);

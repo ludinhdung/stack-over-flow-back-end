@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DatabaseMigrationSettings" lastSelectedDirectory="src\main\resources\db\migration" />
+  <component name="JpaLiquibaseChangesConfig">
+    <exclude-change idName="questions#last_modified_date" tagName="addColumn" />
+    <exclude-change idName="questions#create_date" tagName="dropColumn" />
+    <exclude-change idName="questions#last_modified_date" tagName="dropColumn" />
+    <exclude-change idName="questions#create_date" tagName="addColumn" />
+    <exclude-change idName="idx_question_title" tagName="createIndex" />
+  </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
       <persistence-unit moduleName="stackoverflow-back-end.main" name="Default">

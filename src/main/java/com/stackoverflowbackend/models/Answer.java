@@ -1,9 +1,7 @@
 package com.stackoverflowbackend.models;
 
-import com.stackoverflowbackend.dtos.QuestionDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,7 +11,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -21,18 +18,14 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "questions")
+@Table(name = "answers")
 @EntityListeners(AuditingEntityListener.class)
 @EnableJpaAuditing
-public class Question {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
     private Long id;
-
-    @NotBlank
-    private String title;
 
     @NotBlank
     @Lob
@@ -40,11 +33,7 @@ public class Question {
     private String body;
 
     @Builder.Default
-    private Integer voteCount = 0;
-
-    @NotEmpty
-    @ElementCollection(targetClass = String.class)
-    private List<String> tags;
+    private boolean approve = false;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -55,15 +44,12 @@ public class Question {
     private LocalDate lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Vote> voteList;
-
-
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "question_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Question question;
 }
-
-
-

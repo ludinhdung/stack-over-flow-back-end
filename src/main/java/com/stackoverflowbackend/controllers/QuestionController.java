@@ -2,6 +2,7 @@ package com.stackoverflowbackend.controllers;
 
 import com.stackoverflowbackend.dtos.AllQuestionResponseDto;
 import com.stackoverflowbackend.dtos.QuestionDto;
+import com.stackoverflowbackend.dtos.SingleQuestionResponse;
 import com.stackoverflowbackend.services.question.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,18 @@ public class QuestionController {
         return questionService.addQuestion(questionDto);
     }
 
-    @GetMapping()
+    @GetMapping
     public AllQuestionResponseDto getAllQuestions(@RequestParam(required = false) Integer pageNumber) {
         return questionService.getAllQuestions(pageNumber);
+    }
+
+    @GetMapping("/question/{questionId}/{userId}")
+    public SingleQuestionResponse getQuestionById(@PathVariable Long questionId, @PathVariable Long userId) {
+        return questionService.getQuestionById(questionId, userId);
+    }
+
+    @GetMapping("/{userId}")
+    public AllQuestionResponseDto getQuestionByUserId(@PathVariable Long userId, @RequestParam(required = false) Integer pageNumber) {
+        return questionService.getQuestionByUserId(userId, pageNumber);
     }
 }

@@ -1,5 +1,7 @@
 package com.stackoverflowbackend.controllers;
 
+import com.stackoverflowbackend.exceptions.AnswerNotFoundException;
+import com.stackoverflowbackend.exceptions.QuestionNotFoundException;
 import com.stackoverflowbackend.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,9 +17,9 @@ import java.util.Map;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler({UserNotFoundException.class, QuestionNotFoundException.class, AnswerNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public List<String> handleUserNotFound(UserNotFoundException exception) {
+    public List<String> handleEntityNotFound(UserNotFoundException exception) {
 
         return Collections.singletonList(exception.getMessage());
     }
