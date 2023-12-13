@@ -1,6 +1,6 @@
-package com.stackoverflowbackend.services.user;
+package com.stackoverflowbackend.services.image;
 
-import com.stackoverflowbackend.exceptions.AnswerNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.models.Answer;
 import com.stackoverflowbackend.models.Image;
 import com.stackoverflowbackend.repositories.AnswerRepository;
@@ -23,7 +23,7 @@ public class ImageServiceImpl implements ImageService {
     @SneakyThrows
     @Override
     public void storeFile(MultipartFile multipartFile, Long answerId) {
-        Answer answer = answerRepository.findById(answerId).orElseThrow(() -> new AnswerNotFoundException(answerId));
+        Answer answer = answerRepository.findById(answerId).orElseThrow(() -> new ObjectNotFoundException("answer", answerId));
 
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 

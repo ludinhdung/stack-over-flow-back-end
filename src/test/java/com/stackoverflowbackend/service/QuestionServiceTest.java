@@ -2,7 +2,7 @@ package com.stackoverflowbackend.service;
 
 import com.stackoverflowbackend.dtos.AllQuestionResponseDto;
 import com.stackoverflowbackend.dtos.QuestionDto;
-import com.stackoverflowbackend.exceptions.UserNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.mappers.QuestionMapper;
 import com.stackoverflowbackend.models.Question;
 import com.stackoverflowbackend.models.User;
@@ -11,8 +11,10 @@ import com.stackoverflowbackend.repositories.UserRepository;
 import com.stackoverflowbackend.services.question.QuestionServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -35,8 +37,8 @@ class QuestionServiceTest {
     @Mock
     UserRepository userRepository;
 
-    @Mock
-    QuestionMapper questionMapper;
+    @Spy
+    QuestionMapper questionMapper = Mappers.getMapper(QuestionMapper.class);
 
     @InjectMocks
     QuestionServiceImpl questionService;
@@ -45,16 +47,14 @@ class QuestionServiceTest {
     void testAddQuestionSuccess() {
         //given
         User user = User.builder().build();
-        Question question = Question.builder().build();
+        Question question = Question.builder().id(1L).title("title1").build();
 
         QuestionDto questionDto = QuestionDto.builder().title("title1").body("body").tags(List.of("tag1", "tag2")).userId(1L).build();
 
         QuestionDto questionResponse = QuestionDto.builder().id(1L).title("title1").build();
 
         given(userRepository.findById(anyLong())).willReturn(Optional.ofNullable(user));
-        given(questionMapper.toEntity(any(QuestionDto.class))).willReturn(question);
         given(questionRepository.save(any(Question.class))).willReturn(question);
-        given(questionMapper.toDtoResponseCreate(any(Question.class))).willReturn(questionResponse);
 
         //when
         QuestionDto questionResultResponse = questionService.addQuestion(questionDto);
@@ -69,7 +69,7 @@ class QuestionServiceTest {
     void testAddQuestionNotFoundUserId() {
         given(userRepository.findById(anyLong())).willReturn(Optional.empty());
 
-        Throwable exception = assertThrows(UserNotFoundException.class, () -> questionService.addQuestion(QuestionDto.builder().userId(1L).build()));
+        Throwable exception = assertThrows(ObjectNotFoundException.class, () -> questionService.addQuestion(QuestionDto.builder().userId(1L).build()));
 
         assertEquals("The user with id 1 was not not found", exception.getMessage());
     }
@@ -81,7 +81,6 @@ class QuestionServiceTest {
         questionList.add(Question.builder().build());
 
         given(questionRepository.findAll(PageRequest.of(0, 5))).willReturn(new PageImpl<>(questionList));
-        given(questionMapper.toDtoResponseAll(any())).willReturn(QuestionDto.builder().title("title").build());
 
         AllQuestionResponseDto resultReturn = questionService.getAllQuestions(1);
 

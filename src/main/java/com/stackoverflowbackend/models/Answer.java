@@ -20,7 +20,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "answers")
 @EntityListeners(AuditingEntityListener.class)
-@EnableJpaAuditing
 public class Answer {
 
     @Id

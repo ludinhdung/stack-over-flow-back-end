@@ -1,8 +1,7 @@
 package com.stackoverflowbackend.services.vote;
 
 import com.stackoverflowbackend.dtos.VoteDto;
-import com.stackoverflowbackend.exceptions.QuestionNotFoundException;
-import com.stackoverflowbackend.exceptions.UserNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.mappers.VoteMapper;
 import com.stackoverflowbackend.models.Question;
 import com.stackoverflowbackend.models.User;
@@ -35,8 +34,8 @@ public class VoteServiceImpl implements VoteService {
         Optional<User> user = userRepository.findById(voteDto.userId());
         Optional<Question> question = questionRepository.findById(voteDto.questionId());
 
-        if (user.isEmpty()) throw new UserNotFoundException(voteDto.userId());
-        if (question.isEmpty()) throw new QuestionNotFoundException(voteDto.userId());
+        if (user.isEmpty()) throw new ObjectNotFoundException("user",voteDto.userId());
+        if (question.isEmpty()) throw new ObjectNotFoundException("question",voteDto.questionId());
 
         Question foundQuestion = question.get();
 

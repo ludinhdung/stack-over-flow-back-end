@@ -1,6 +1,6 @@
 package com.stackoverflowbackend.controllers;
 
-import com.stackoverflowbackend.services.user.ImageService;
+import com.stackoverflowbackend.services.image.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

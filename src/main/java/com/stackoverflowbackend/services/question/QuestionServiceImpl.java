@@ -4,8 +4,7 @@ import com.stackoverflowbackend.dtos.AllQuestionResponseDto;
 import com.stackoverflowbackend.dtos.AnswerDto;
 import com.stackoverflowbackend.dtos.QuestionDto;
 import com.stackoverflowbackend.dtos.SingleQuestionResponse;
-import com.stackoverflowbackend.exceptions.QuestionNotFoundException;
-import com.stackoverflowbackend.exceptions.UserNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.mappers.ImageMapper;
 import com.stackoverflowbackend.mappers.QuestionMapper;
 import com.stackoverflowbackend.models.Question;
@@ -51,7 +50,7 @@ public class QuestionServiceImpl implements QuestionService {
         Optional<User> optionalUser = userRepository.findById(questionDto.getUserId());
 
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException(questionDto.getUserId());
+            throw new ObjectNotFoundException("user", questionDto.getUserId());
         }
 
         Question question = questionMapper.toEntity(questionDto);
@@ -80,7 +79,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional
     public SingleQuestionResponse getQuestionById(Long questionId, Long userId) {
-        Question foundQuestion = questionRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId));
+        Question foundQuestion = questionRepository.findById(questionId).orElseThrow(() -> new ObjectNotFoundException("question", questionId));
 
         List<AnswerDto> answerResponseList = new ArrayList<>();
 

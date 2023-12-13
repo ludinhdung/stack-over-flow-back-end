@@ -5,6 +5,10 @@ spring:
     password: dung2309
   jpa:
     show-sql: true
+  security:
+    user:
+      name: user
+      password: password
 
 api:
   endpoint:

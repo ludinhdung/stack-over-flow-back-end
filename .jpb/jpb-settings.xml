@@ -7,6 +7,7 @@
     <exclude-change idName="questions#last_modified_date" tagName="dropColumn" />
     <exclude-change idName="questions#create_date" tagName="addColumn" />
     <exclude-change idName="idx_question_title" tagName="createIndex" />
+    <exclude-change idName="questions#vote_count" tagName="dropNotNullConstraint" />
   </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>

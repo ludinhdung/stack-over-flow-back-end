@@ -1,11 +1,11 @@
 package com.stackoverflowbackend.service;
 
-import com.stackoverflowbackend.exceptions.AnswerNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.models.Answer;
 import com.stackoverflowbackend.models.Image;
 import com.stackoverflowbackend.repositories.AnswerRepository;
 import com.stackoverflowbackend.repositories.ImageRepository;
-import com.stackoverflowbackend.services.user.ImageServiceImpl;
+import com.stackoverflowbackend.services.image.ImageServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,7 +53,7 @@ class ImageServiceTest {
 
         given(answerRepository.findById(answerId)).willReturn(Optional.empty());
 
-        assertThrows(AnswerNotFoundException.class,
+        assertThrows(ObjectNotFoundException.class,
                 () -> imageService.storeFile(multipartFile, answerId));
     }
 }
