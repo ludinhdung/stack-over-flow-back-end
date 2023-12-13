@@ -2,6 +2,7 @@ package com.stackoverflowbackend.controllers;
 
 import com.stackoverflowbackend.dtos.AnswerDto;
 import com.stackoverflowbackend.services.answer.AnswerService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

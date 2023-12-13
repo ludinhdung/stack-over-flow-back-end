@@ -1,9 +1,7 @@
 package com.stackoverflowbackend.services.answer;
 
 import com.stackoverflowbackend.dtos.AnswerDto;
-import com.stackoverflowbackend.exceptions.AnswerNotFoundException;
-import com.stackoverflowbackend.exceptions.QuestionNotFoundException;
-import com.stackoverflowbackend.exceptions.UserNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.mappers.AnswerMapper;
 import com.stackoverflowbackend.models.Answer;
 import com.stackoverflowbackend.models.Question;
@@ -35,8 +33,8 @@ public class AnswerServiceImpl implements AnswerService {
         Optional<User> user = userRepository.findById(answerDto.userId());
         Optional<Question> question = questionRepository.findById(answerDto.questionId());
 
-        if (user.isEmpty()) throw new UserNotFoundException(answerDto.userId());
-        if (question.isEmpty()) throw new QuestionNotFoundException(answerDto.userId());
+        if (user.isEmpty()) throw new ObjectNotFoundException("answer", answerDto.userId());
+        if (question.isEmpty()) throw new ObjectNotFoundException("question", answerDto.questionId());
 
         Answer savedAnswer = answerMapper.toEntity(answerDto);
         savedAnswer.setUser(user.get());
@@ -47,7 +45,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerDto approveAnswer(Long answerId) {
-        Answer answer = answerRepository.findById(answerId).orElseThrow(() -> new AnswerNotFoundException(answerId));
+        Answer answer = answerRepository.findById(answerId).orElseThrow(() -> new ObjectNotFoundException("answer", answerId));
 
         answer.setApprove(true);
 

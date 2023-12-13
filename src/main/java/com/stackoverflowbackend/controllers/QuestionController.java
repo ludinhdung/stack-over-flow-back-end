@@ -27,7 +27,7 @@ public class QuestionController {
         return questionService.getAllQuestions(pageNumber);
     }
 
-    @GetMapping("/question/{questionId}/{userId}")
+    @GetMapping("/{questionId}/{userId}")
     public SingleQuestionResponse getQuestionById(@PathVariable Long questionId, @PathVariable Long userId) {
         return questionService.getQuestionById(questionId, userId);
     }

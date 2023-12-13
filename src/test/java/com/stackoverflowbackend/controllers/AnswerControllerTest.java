@@ -2,6 +2,8 @@ package com.stackoverflowbackend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackoverflowbackend.dtos.AnswerDto;
+import com.stackoverflowbackend.mappers.AnswerMapper;
+import com.stackoverflowbackend.mappers.QuestionMapper;
 import com.stackoverflowbackend.services.answer.AnswerService;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -22,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AnswerController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class AnswerControllerTest {
 
     @Autowired

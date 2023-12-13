@@ -1,6 +1,5 @@
 package com.stackoverflowbackend.models;
 
-import com.stackoverflowbackend.dtos.QuestionDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,12 +22,10 @@ import java.util.List;
 @Entity
 @Table(name = "questions")
 @EntityListeners(AuditingEntityListener.class)
-@EnableJpaAuditing
 public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
     private Long id;
 
     @NotBlank

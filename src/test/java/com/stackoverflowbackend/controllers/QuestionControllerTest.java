@@ -3,13 +3,12 @@ package com.stackoverflowbackend.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackoverflowbackend.dtos.AllQuestionResponseDto;
 import com.stackoverflowbackend.dtos.QuestionDto;
-import com.stackoverflowbackend.exceptions.UserNotFoundException;
+import com.stackoverflowbackend.exceptions.ObjectNotFoundException;
 import com.stackoverflowbackend.services.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(QuestionController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class QuestionControllerTest {
 
     @Autowired
@@ -37,7 +37,6 @@ class QuestionControllerTest {
 
     @MockBean
     QuestionService questionService;
-
 
     @Test
     void testPostQuestionSuccess() throws Exception {
@@ -82,7 +81,7 @@ class QuestionControllerTest {
         QuestionDto questionDto = QuestionDto.builder().title("title1").body("body").tags(List.of("tag1", "tag2")).userId(1L).build();
         String json = objectMapper.writeValueAsString(questionDto);
 
-        given(questionService.addQuestion(any(QuestionDto.class))).willThrow(new UserNotFoundException(1L));
+        given(questionService.addQuestion(any(QuestionDto.class))).willThrow(new ObjectNotFoundException("answer",1L));
 
         mockMvc.perform(post("/api/v1/questions").accept(MediaType.APPLICATION_JSON)
                         .content(json)

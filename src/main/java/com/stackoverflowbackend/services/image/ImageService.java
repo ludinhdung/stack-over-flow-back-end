@@ -1,4 +1,4 @@
-package com.stackoverflowbackend.services.user;
+package com.stackoverflowbackend.services.image;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -11,8 +11,10 @@ import com.stackoverflowbackend.repositories.UserRepository;
 import com.stackoverflowbackend.services.answer.AnswerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -25,7 +27,6 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class AnswerServiceTest {
-
     @Mock
     AnswerRepository answerRepository;
 
@@ -35,8 +36,8 @@ class AnswerServiceTest {
     @Mock
     UserRepository userRepository;
 
-    @Mock
-    AnswerMapper answerMapper;
+    @Spy
+    AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
     @InjectMocks
     AnswerServiceImpl answerService;
@@ -44,15 +45,14 @@ class AnswerServiceTest {
     @Test
     void testPostAnswerSuccess() {
         User user = User.builder().build();
-        Question question = Question.builder().id(1L).title("Title 1").build();
-        Answer answer = Answer.builder().body("Body").build();
+        Question question = Question.builder().build();
+
+        Answer answer = Answer.builder().id(1L).approve(false).body("Body").build();
         AnswerDto answerDto = AnswerDto.builder().id(1L).approve(false).userId(1L).questionId(1L).build();
 
         given(userRepository.findById(anyLong())).willReturn(Optional.ofNullable(user));
         given(questionRepository.findById(anyLong())).willReturn(Optional.ofNullable(question));
-        given(answerMapper.toEntity(any(AnswerDto.class))).willReturn(answer);
         given(answerRepository.save(any(Answer.class))).willReturn(answer);
-        given(answerMapper.toDtoResponseCreate(any(Answer.class))).willReturn(answerDto);
 
         AnswerDto responseAnswer = answerService.postAnswer(answerDto);
 
