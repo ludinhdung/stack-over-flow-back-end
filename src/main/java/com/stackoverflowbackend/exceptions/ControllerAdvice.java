@@ -1,7 +1,6 @@
 package com.stackoverflowbackend.exceptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,21 +29,21 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public List<String> handleAuthenticationException(Exception exception) {
 
-        return List.of("Username or password not found");
+        return Collections.singletonList("Username or password not found");
     }
 
     @ExceptionHandler(AccountStatusException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public List<String> handleAccountStatusException(AccountStatusException exception) {
 
-        return List.of("The access token provided is expired, revoked, malformed, or invalid for other reasons.");
+        return Collections.singletonList("The access token provided is expired, revoked, malformed, or invalid for other reasons.");
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public List<String> handleAccessDeniedException(AccessDeniedException exception) {
 
-        return List.of("No permission");
+        return Collections.singletonList("No permission");
     }
 
     @ExceptionHandler(InvalidBearerTokenException.class)

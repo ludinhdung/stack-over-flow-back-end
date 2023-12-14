@@ -6,6 +6,7 @@ import com.stackoverflowbackend.dtos.SingleQuestionResponse;
 import com.stackoverflowbackend.services.question.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class QuestionController {
     }
 
     @GetMapping
+    @Cacheable(value = "product", key = "#id")
     public AllQuestionResponseDto getAllQuestions(@RequestParam(required = false) Integer pageNumber) {
         return questionService.getAllQuestions(pageNumber);
     }

@@ -10,6 +10,7 @@ import com.stackoverflowbackend.security.CustomBasicAuthenticationEntryPoint;
 import com.stackoverflowbackend.security.CustomBearerTokenAccessDeniedHandler;
 import com.stackoverflowbackend.security.CustomBearerTokenAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -82,6 +83,8 @@ public class SecurityConfiguration {
                     .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").permitAll()
                     .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_admin")
                     .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_admin")
+                    .requestMatchers("/actuator/**").permitAll()
+                    .requestMatchers(EndpointRequest.toAnyEndpoint().excluding("health", "info")).hasAuthority("ROLE_admin")
                     .anyRequest().authenticated();
         });
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(this.customBasicAuthenticationEntryPoint));
