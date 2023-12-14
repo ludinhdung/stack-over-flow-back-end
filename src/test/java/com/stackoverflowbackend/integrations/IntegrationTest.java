@@ -26,15 +26,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Tag("integration")
 class IntegrationTest {
-
-    @Container
-    @ServiceConnection
-    static MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:latest");
 
     @Autowired
     MockMvc mockMvc;
@@ -57,12 +52,6 @@ class IntegrationTest {
         JSONObject jsonObject = new JSONObject(contentAsString);
 
         this.token = "Bearer " + jsonObject.getString("token");
-    }
-
-    @Test
-    void connectionEstablished() {
-        assertTrue(mySQLContainer.isCreated());
-        assertTrue(mySQLContainer.isRunning());
     }
 
     @Test

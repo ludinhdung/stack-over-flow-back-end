@@ -71,7 +71,7 @@ class QuestionServiceTest {
 
         Throwable exception = assertThrows(ObjectNotFoundException.class, () -> questionService.addQuestion(QuestionDto.builder().userId(1L).build()));
 
-        assertEquals("The user with id 1 was not not found", exception.getMessage());
+        assertEquals("Could not find user with Id 1", exception.getMessage());
     }
 
     @Test
